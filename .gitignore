@@ -1,0 +1,16 @@
+# Fichiers temporaires et du systèmes
+*.tmp
+*.log
+
+# Paramètres locaux et secrets
+.env
+.env.*
+
+# Environnements Python et caches
+__pycache__/
+.venv/
+venv/
+
+# Répertoires de dépendances ou de compilation
+node_modules/
+chemin_vers_les_dossier_build
