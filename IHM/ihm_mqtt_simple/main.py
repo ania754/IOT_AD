@@ -86,7 +86,21 @@ class MonIHM(QMainWindow, Ui_MainWindow):
             if hasattr(self.client_mqtt, 'humidite') and hasattr(self, 'lblHumi'):
                 self.lblHumi.setText(f"Humidité (en %) : {self.client_mqtt.humidite} %")
 
-    
+    def chargerHistorique(self):
+        """Interroge la base SQLite et remplit le tableau de l'IHM"""
+        if self.client_mqtt and hasattr(self.client_mqtt, 'get_history'):
+            rows = self.client_mqtt.get_history(50)
+            
+            if hasattr(self, 'tableWidget'):
+                self.tableWidget.setRowCount(len(rows))
+                
+                for row_idx, row_data in enumerate(rows):
+                    for col_idx, val in enumerate(row_data):
+                        self.tableWidget.setItem(row_idx, col_idx, QTableWidgetItem(str(val)))
+                
+            print(f"{len(rows)} lignes chargées dans le tableau d'historique.")
+        else:
+            print("Client MQTT non connecté ou base SQLite non initialisée.")
 
     # --- COMMANDES DU CAPTEUR (Topics en MAJUSCULES) ---
     def synchroDateTime(self):

@@ -116,4 +116,16 @@ class ClientMQTT:
         if self.conn:
             self.conn.close()
 
-    
+    def get_history(self, limit=50):
+        """Récupère l'historique des mesures depuis la base SQLite en toute sécurité multi-thread"""
+        try:
+            # Ouvre une connexion locale dédiée pour la lecture (évite le conflit de threads)
+            conn = sqlite3.connect("IOT.db")
+            cursor = conn.cursor()
+            cursor.execute(f"SELECT Date, Version, Temperature, Humidite FROM {self.tablename} ORDER BY ROWID DESC LIMIT ?", (limit,))
+            rows = cursor.fetchall()
+            conn.close()
+            return rows
+        except Exception as e:
+            print(f"Erreur lors de la lecture de la bdd : {e}")
+            return []
