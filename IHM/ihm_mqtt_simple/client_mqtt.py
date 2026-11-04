@@ -61,7 +61,7 @@ class ClientMQTT:
             # Stockage des valeurs selon le topic reçu (en ignorant la casse)
             if "version" in topic_lower:
                 self.version = payload
-            elif "get_date" in topic_lower:
+            elif "get_date" in topic_lower or "get date" in topic_lower:
                 self.datetime_acq = payload
             elif "temperature" in topic_lower:
                 try:
@@ -73,21 +73,21 @@ class ClientMQTT:
                     self.humidite = float(payload)
                 except ValueError:
                     pass
-
-            # Enregistrement sécurisé en base de données si la connexion est active
-            if self.conn:
-                try:
-                    self.conn.cursor().execute(
-                        f"INSERT INTO {self.tablename} VALUES (?, ?, ?, ?, ?)",
-                        (self.id_capteur, self.datetime_acq, self.version, self.temperature, self.humidite)
-                    )
-                    self.conn.commit()
-                except Exception as e:
-                    print(f"Erreur insertion SQLite : {e}")
+                
+                # --- INSERTION UNIQUE : Uniquement quand on reçoit l'humidité ---
+                if self.conn:
+                    try:
+                        self.conn.cursor().execute(
+                            f"INSERT INTO {self.tablename} VALUES (?, ?, ?, ?, ?)",
+                            (self.id_capteur, self.datetime_acq, self.version, self.temperature, self.humidite)
+                        )
+                        self.conn.commit()
+                        print("Donnée enregistrée en base avec succès !")
+                    except Exception as e:
+                        print(f"Erreur insertion SQLite : {e}")
 
         if self.client:
             self.client.subscribe(topic, qos=qos)
-            # On assigne le callback global (ou cumulatif)
             self.client.on_message = on_message
 
     def wait_mqtt(self, timeout=0):

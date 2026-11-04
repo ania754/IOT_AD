@@ -44,6 +44,9 @@ class MonIHM(QMainWindow, Ui_MainWindow):
         # --- AJOUT : Bouton pour charger l'historique SQLite ---
         if hasattr(self, 'btnLoadHisto'):
             self.btnLoadHisto.clicked.connect(self.chargerHistorique)
+ # --- ajoute du bouton pour le graph ---
+        if hasattr(self, 'btnOpenGraph'):
+            self.btnOpenGraph.clicked.connect(self.ouvrir_fenetre_courbes)    
 
     def lancer_connexion(self):
         broker = self.txtIp.text() if hasattr(self, 'txtIp') else "192.168.1.1"
@@ -150,6 +153,12 @@ class MonIHM(QMainWindow, Ui_MainWindow):
         if self.client_mqtt:
             self.client_mqtt.publish_mqtt(topic, valeur)
         print(f"Bargraphe envoyé : {valeur} sur {topic}")
+
+    def ouvrir_fenetre_courbes(self):
+        """Ouvre la boîte de dialogue des courbes"""
+        from dialogue_courbe import CourbeDialog
+        self.dlg_courbe = CourbeDialog()
+        self.dlg_courbe.exec()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

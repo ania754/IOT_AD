@@ -140,6 +140,9 @@ class Ui_MainWindow(object):
 
         self.btnLoadHisto = QPushButton("Charger l'historique", self.groupBox_histo)
         histo_layout.addWidget(self.btnLoadHisto)
+ # ==================== affichage bouton graph====================
+        self.btnOpenGraph = QPushButton("Afficher les courbes", self.groupBox_histo)
+        histo_layout.addWidget(self.btnOpenGraph)
 
         # Tableau avec 4 colonnes : Date, Version, Température, Humidité
         self.tableWidget = QTableWidget(self.groupBox_histo)
