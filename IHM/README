@@ -1,0 +1,41 @@
+README – IHM Projet IoT
+Présentation
+
+Cette application permet de superviser le capteur TempHumiX grâce à une interface graphique Python. Elle permet d'afficher les mesures en temps réel, d'envoyer des commandes et de consulter l'historique des données.
+
+Installation
+
+Installer les bibliothèques nécessaires avec la commande :
+
+bash
+pip install paho-mqtt PySide6 matplotlib
+
+Utilisation
+Ouvrir un terminal.
+Se placer dans le dossier ihm_mqtt_simple contenant le fichier main.py.
+Exécuter la commande suivante pour lancer l'application :
+bash
+python main.py
+
+Renseigner les paramètres de connexion MQTT (adresse IP, port et identifiants).
+Cliquer sur « Connecter » pour recevoir les données du capteur.
+Afficher les graphiques
+
+Pour consulter l'historique des mesures de température et d'humidité :
+
+Cliquer sur le bouton « Afficher graphe » dans l'interface.
+Sélectionner une date et une heure de début et de fin.
+Cliquer sur « Charger les données » pour afficher les courbes.
+Cliquer sur « Effacer les courbes » pour réinitialiser l'affichage.
+
+Les données sont automatiquement enregistrées dans la base de données SQLite IOT.db.
+
+Fonctionnalités
+Affichage de la température et de l'humidité en temps réel.
+Affichage de la date et de l'heure.
+Envoi de commandes au capteur via MQTT.
+Enregistrement des mesures dans SQLite.
+Visualisation de l'historique sous forme de graphiques avec Matplotlib.
+Technologies utilisées
+
+Python, PySide6, MQTT, SQLite et Matplotlib.
